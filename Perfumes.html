@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maison S élene | Perfumes</title>
+  <style>
+    :root{
+      --bg:#f5efe6;
+      --paper:#fbf7f1;
+      --ink:#2f241d;
+      --muted:#6f5a49;
+      --sand:#d8b895;
+      --olive:#82907a;
+      --line:rgba(62,42,29,.12);
+      --deep:#2d221c;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(216,184,149,.28), transparent 26%),
+        radial-gradient(circle at top right, rgba(130,144,122,.18), transparent 24%),
+        linear-gradient(180deg, #f7f1e8 0%, #efe5d7 100%);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.08;
+      background-image:
+        linear-gradient(rgba(60,40,25,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(60,40,25,.08) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: radial-gradient(circle at center, black 60%, transparent 100%);
+    }
+
+    .container{
+      width:min(1180px, calc(100% - 36px));
+      margin:0 auto;
+    }
+
+    .serif{
+      font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      letter-spacing:-0.03em;
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      padding:24px 0;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+
+    .seal{
+      width:48px;
+      height:48px;
+      border-radius:50%;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.55);
+      display:grid;
+      place-items:center;
+      font-size:18px;
+      box-shadow:0 10px 30px rgba(93,70,52,.08);
+    }
+
+    .brand small{
+      display:block;
+      text-transform:uppercase;
+      letter-spacing:.34em;
+      font-size:11px;
+      color:rgba(89,67,53,.75);
+      margin-bottom:4px;
+    }
+
+    .brand strong{
+      font-size:18px;
+      font-weight:650;
+    }
+
+    nav{
+      display:flex;
+      gap:30px;
+      align-items:center;
+    }
+
+    nav a{
+      text-decoration:none;
+      color:rgba(47,36,29,.82);
+      font-size:14px;
+      transition:.22s ease;
+    }
+
+    nav a:hover{color:#000}
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:14px 24px;
+      border-radius:999px;
+      text-decoration:none;
+      transition:.22s ease;
+      font-size:15px;
+      border:1px solid transparent;
+      white-space:nowrap;
+    }
+
+    .btn-dark{
+      background:var(--deep);
+      color:#f7f0e8;
+      box-shadow:0 12px 26px rgba(45,34,28,.14);
+    }
+
+    .btn-dark:hover{transform:translateY(-1px); background:#221a15}
+
+    .btn-light{
+      background:rgba(255,255,255,.6);
+      color:var(--ink);
+      border-color:var(--line);
+      backdrop-filter:blur(6px);
+    }
+
+    .btn-light:hover{background:rgba(255,255,255,.82)}
+
+    .hero{
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:34px;
+      align-items:start;
+      padding:16px 0 88px;
+    }
+
+    .hero-left{
+      padding-top:18px;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding:11px 16px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:rgba(255,255,255,.56);
+      font-size:14px;
+      color:var(--muted);
+      margin-bottom:26px;
+      backdrop-filter:blur(6px);
+    }
+
+    .dot{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:#9a7454;
+    }
+
+    h1{
+      margin:0;
+      font-size:clamp(52px, 8vw, 92px);
+      line-height:.92;
+      font-weight:650;
+      max-width:760px;
+    }
+
+    .accent{
+      display:block;
+      color:#8b6649;
+    }
+
+    .lead{
+      margin:28px 0 0;
+      max-width:700px;
+      font-size:20px;
+      line-height:1.85;
+      color:rgba(69,51,40,.86);
+    }
+
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      margin-top:38px;
+    }
+
+    .facts{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:14px;
+      margin-top:44px;
+    }
+
+    .fact{
+      padding:18px;
+      border:1px solid var(--line);
+      border-radius:24px;
+      background:rgba(255,255,255,.54);
+      box-shadow:0 12px 24px rgba(89,67,53,.04);
+    }
+
+    .fact span{
+      display:block;
+      color:rgba(92,72,58,.72);
+      font-size:13px;
+      margin-bottom:8px;
+    }
+
+    .fact strong{
+      font-size:14px;
+      font-weight:650;
+    }
+
+    .hero-right{
+      display:grid;
+      grid-template-columns:.64fr .36fr;
+      gap:18px;
+    }
+
+    .poster{
+      min-height:620px;
+      border:1px solid var(--line);
+      border-radius:34px;
+      overflow:hidden;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,.04)),
+        linear-gradient(180deg, #dec9b1 0%, #bf8f69 30%, #6f8e83 65%, #2f403d 100%);
+      position:relative;
+      box-shadow:0 26px 60px rgba(80,57,41,.13);
+    }
+
+    .poster::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 25% 10%, rgba(255,255,255,.35), transparent 26%),
+        linear-gradient(180deg, rgba(255,255,255,.2), transparent 40%);
+      pointer-events:none;
+    }
+
+    .poster-inner{
+      position:relative;
+      z-index:1;
+      height:100%;
+      padding:22px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+
+    .note{
+      background:rgba(251,247,241,.72);
+      border:1px solid rgba(72,51,38,.12);
+      border-radius:24px;
+      padding:16px;
+      max-width:290px;
+      backdrop-filter:blur(8px);
+    }
+
+    .note small{
+      display:block;
+      text-transform:uppercase;
+      letter-spacing:.28em;
+      font-size:11px;
+      color:rgba(90,68,54,.74);
+      margin-bottom:10px;
+    }
+
+    .note h2{
+      margin:0;
+      font-size:34px;
+      line-height:1.02;
+      font-weight:650;
+    }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .chips span{
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.25);
+      background:rgba(255,255,255,.15);
+      color:#fff8f0;
+      font-size:12px;
+      backdrop-filter:blur(6px);
+    }
+
+    .side{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    .card{
+      border:1px solid var(--line);
+      border-radius:28px;
+      background:rgba(255,255,255,.62);
+      padding:22px;
+      box-shadow:0 14px 36px rgba(89,67,53,.06);
+    }
+
+    .card.dark{
+      background:var(--deep);
+      color:#f8f1e8;
+      box-shadow:0 16px 36px rgba(45,34,28,.16);
+    }
+
+    .card span{
+      display:block;
+      font-size:14px;
+      color:rgba(97,77,63,.72);
+      margin-bottom:10px;
+    }
+
+    .card.dark span{color:rgba(241,223,207,.68)}
+
+    .card h3{
+      margin:0;
+      font-size:38px;
+      line-height:1;
+      font-weight:650;
+    }
+
+    .card p{
+      margin:14px 0 0;
+      font-size:14px;
+      line-height:1.9;
+      color:rgba(85,66,53,.86);
+    }
+
+    .card.dark p{color:rgba(241,223,207,.76)}
+
+    .section{
+      padding:0 0 94px;
+    }
+
+    .section-head{
+      display:grid;
+      grid-template-columns:.9fr 1.1fr;
+      gap:24px;
+      align-items:end;
+      margin-bottom:30px;
+    }
+
+    .mini{
+      display:block;
+      text-transform:uppercase;
+      letter-spacing:.34em;
+      font-size:11px;
+      color:rgba(97,77,63,.66);
+      margin-bottom:12px;
+    }
+
+    .section-head h2{
+      margin:0;
+      font-size:clamp(34px,4.5vw,52px);
+      line-height:1.02;
+      font-weight:650;
+    }
+
+    .section-copy{
+      margin:0;
+      color:rgba(78,59,47,.82);
+      font-size:18px;
+      line-height:1.9;
+      max-width:720px;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+
+    .feature{
+      background:rgba(255,255,255,.58);
+      border:1px solid var(--line);
+      border-radius:30px;
+      padding:28px;
+      box-shadow:0 14px 32px rgba(89,67,53,.05);
+    }
+
+    .feature .icon{
+      width:56px;
+      height:56px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:#efe3d4;
+      border:1px solid rgba(85,64,50,.08);
+      margin-bottom:18px;
+      font-size:22px;
+    }
+
+    .feature h3{
+      margin:0;
+      font-size:24px;
+      font-weight:650;
+    }
+
+    .feature p{
+      margin:14px 0 0;
+      color:rgba(85,66,53,.86);
+      line-height:1.9;
+      font-size:15px;
+    }
+
+    .editorial{
+      display:grid;
+      grid-template-columns:.78fr 1.22fr;
+      gap:18px;
+      padding-bottom:96px;
+    }
+
+    .essay{
+      border:1px solid var(--line);
+      border-radius:34px;
+      background:rgba(248,241,232,.82);
+      padding:30px;
+      box-shadow:0 16px 36px rgba(89,67,53,.06);
+    }
+
+    .essay h2{
+      margin:0;
+      font-size:42px;
+      line-height:1.06;
+      font-weight:650;
+    }
+
+    .essay h2 span{
+      display:block;
+      color:#8b684b;
+    }
+
+    .essay p{
+      margin:18px 0 0;
+      line-height:1.95;
+      color:rgba(82,63,51,.88);
+      font-size:16px;
+    }
+
+    .tiles{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:18px;
+    }
+
+    .tile{
+      border:1px solid var(--line);
+      border-radius:30px;
+      background:rgba(255,255,255,.54);
+      padding:24px;
+      min-height:230px;
+      box-shadow:0 14px 32px rgba(89,67,53,.05);
+      transition:.22s ease;
+    }
+
+    .tile:hover{transform:translateY(-4px)}
+
+    .tile small{
+      color:rgba(97,77,63,.66);
+      font-size:13px;
+    }
+
+    .tile h3{
+      margin:34px 0 0;
+      font-size:30px;
+      line-height:1.12;
+      font-weight:650;
+      max-width:270px;
+    }
+
+    .tile p{
+      margin:14px 0 0;
+      line-height:1.85;
+      color:rgba(85,66,53,.84);
+      font-size:14px;
+    }
+
+    .cta{
+      position:relative;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:38px;
+      background:var(--deep);
+      color:#f8f1e8;
+      padding:42px;
+      box-shadow:0 28px 62px rgba(45,34,28,.18);
+      margin-bottom:56px;
+    }
+
+    .cta::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at 18% 20%, rgba(255,255,255,.09), transparent 18%),
+        radial-gradient(circle at 84% 30%, rgba(202,222,208,.13), transparent 22%),
+        radial-gradient(circle at 70% 80%, rgba(216,184,149,.16), transparent 20%);
+      pointer-events:none;
+    }
+
+    .cta-inner{
+      position:relative;
+      z-index:1;
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:24px;
+      align-items:end;
+    }
+
+    .cta h2{
+      margin:0;
+      font-size:clamp(40px,5vw,62px);
+      line-height:1.03;
+      font-weight:650;
+    }
+
+    .cta h2 span{
+      display:block;
+      color:#d8b895;
+    }
+
+    .cta p{
+      margin:22px 0 0;
+      max-width:720px;
+      color:rgba(241,223,207,.74);
+      line-height:1.9;
+      font-size:18px;
+    }
+
+    .cta-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      justify-content:flex-end;
+    }
+
+    .btn-cream{
+      background:#f8f1e8;
+      color:#2d221c;
+      border-color:#f8f1e8;
+    }
+
+    .btn-cream:hover{background:#ede1d3}
+
+    .btn-outline{
+      background:transparent;
+      color:#f8f1e8;
+      border:1px solid rgba(241,223,207,.22);
+    }
+
+    .btn-outline:hover{background:rgba(255,255,255,.08)}
+
+    @media (max-width: 1024px){
+      .hero, .section-head, .editorial, .cta-inner{
+        grid-template-columns:1fr;
+      }
+      .hero-right, .tiles, .grid-3{
+        grid-template-columns:1fr;
+      }
+      .poster{min-height:520px}
+      .cta-actions{justify-content:flex-start}
+    }
+
+    @media (max-width: 760px){
+      nav{display:none}
+      header{padding:18px 0}
+      .facts{grid-template-columns:1fr}
+      .hero-right{display:block}
+      .side{margin-top:18px}
+      .container{width:min(100% - 24px, 1180px)}
+      .actions, .cta-actions{flex-direction:column}
+      .btn{width:100%}
+      .poster, .card, .essay, .feature, .tile, .cta{border-radius:26px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="seal">✦</div>
+        <div>
+          <small>Maison de Parfum</small>
+          <strong>Maison Sélene</strong>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#escape">Colección</a>
+        <a href="#experience">Esencias</a>
+        <a href="#arrival">Comprar</a>
+      </nav>
+
+      <a class="btn btn-dark" href="#arrival">Descubrir fragancias</a>
+    </header>
+
+    <section class="hero">
+      <div class="hero-left">
+        <div class="eyebrow"><span class="dot"></span>Perfumería boutique con estética editorial y lujo sereno</div>
+
+        <h1 class="serif">
+          Un perfume tan bello
+          <span class="accent">que seduce antes del primer acorde.</span>
+        </h1>
+
+        <p class="lead">
+          Esta propuesta convierte una marca de fragancias en una experiencia visual cálida, elegante y sensorial. Todo está pensado para transmitir sofisticación, deseo y una presencia que se siente exclusiva desde la primera mirada.
+        </p>
+
+        <div class="actions">
+          <a class="btn btn-dark" href="#escape">Explorar colección ↗</a>
+          <a class="btn btn-light" href="#experience">Ver esencias</a>
+        </div>
+
+        <div class="facts">
+          <div class="fact">
+            <span>Estilo</span>
+            <strong>Editorial sensorial</strong>
+          </div>
+          <div class="fact">
+            <span>Sensación</span>
+            <strong>Lujo delicado</strong>
+          </div>
+          <div class="fact">
+            <span>Impacto</span>
+            <strong>Elegancia memorable</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="poster">
+          <div class="poster-inner">
+            <div class="note">
+              <small>Signature Essence</small>
+              <h2 class="serif">Soft light, warm amber and quiet desire.</h2>
+            </div>
+
+            <div class="chips">
+              <span>Perfumes de autor</span>
+              <span>Notas florales</span>
+              <span>Maderas suaves</span>
+              <span>Ámbar sensual</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="side">
+          <div class="card">
+            <span>Fragancia</span>
+            <h3 class="serif">Rose Velours</h3>
+            <p>Una composición floral elegante con presencia envolvente, diseñada para transmitir delicadeza, lujo y una huella imposible de olvidar.</p>
+          </div>
+
+          <div class="card dark">
+            <span>Edición</span>
+            <h3 class="serif">3 aromas curados</h3>
+            <p>Salida luminosa, corazón seductor y fondo cálido en una colección pensada para enamorar desde la atmósfera, el detalle y la memoria.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="experience">
+      <div class="section-head">
+        <div>
+          <span class="mini">Por qué funciona</span>
+          <h2 class="serif">Una dirección visual con aroma propio</h2>
+        </div>
+        <p class="section-copy">
+          Aquí no manda la estética tecnológica ni el brillo frío. Mandan la luz suave, los tonos cremosos, las tipografías elegantes y una composición que se siente más como editorial de lujo que como tienda común.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <article class="feature">
+          <div class="icon">❋</div>
+          <h3 class="serif">Notas en armonía</h3>
+          <p>Una identidad visual cálida y refinada, pensada para presentar fragancias con sensibilidad, profundidad y una belleza muy bien medida.</p>
+        </article>
+
+        <article class="feature">
+          <div class="icon">☀</div>
+          <h3 class="serif">Calma sensorial</h3>
+          <p>Espacios amplios, jerarquía tipográfica limpia y una composición que respira como una revista premium de perfumería.</p>
+        </article>
+
+        <article class="feature">
+          <div class="icon">≈</div>
+          <h3 class="serif">Experiencia envolvente</h3>
+          <p>Más que una landing, una atmósfera completa que vende emociones, presencia y deseo antes incluso de probar el perfume.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="editorial" id="escape">
+      <div class="essay">
+        <span class="mini">Nuestra colección</span>
+        <h2 class="serif">
+          Fragancias que se sienten artesanales,
+          <span>no fabricadas sin alma.</span>
+        </h2>
+        <p>
+          Esta propuesta gira alrededor de la sensación. La fuerza está en la composición editorial, la calidez de la paleta y una elegancia silenciosa que hace que cada perfume parezca una pieza curada con intención. En pocas palabras: esto huele a marca cara aunque todavía no hayas destapado el frasco.
+        </p>
+      </div>
+
+      <div class="tiles">
+        <article class="tile">
+          <small>01</small>
+          <h3 class="serif">Rosas aterciopeladas</h3>
+          <p>Cada bloque está pensado para transmitir suavidad, presencia y una feminidad elegante sin caer en lo genérico.</p>
+        </article>
+
+        <article class="tile">
+          <small>02</small>
+          <h3 class="serif">Ámbar dorado</h3>
+          <p>Una estructura visual creada para sugerir calidez, sensualidad y una profundidad que se queda en la memoria.</p>
+        </article>
+
+        <article class="tile">
+          <small>03</small>
+          <h3 class="serif">Maderas cremosas</h3>
+          <p>Texturas visuales suaves, tono editorial y una sensación menos comercial, más íntima y más cuidada.</p>
+        </article>
+
+        <article class="tile">
+          <small>04</small>
+          <h3 class="serif">Vainilla nocturna</h3>
+          <p>Un estilo ideal para vender lujo sensorial sin sentirse como una plantilla maquillada y ya, que eso se nota a kilómetros.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="arrival">
+      <div class="cta">
+        <div class="cta-inner">
+          <div>
+            <span class="mini" style="color:rgba(241,223,207,.58)">Última nota</span>
+            <h2 class="serif">
+              Haz que una fragancia transmita
+              <span>deseo desde la primera impresión.</span>
+            </h2>
+            <p>
+              Ideal para presentar una marca de perfumes de forma elegante, ya sea como catálogo visual, página informativa o vitrina de ventas con una estética cálida, editorial y profundamente sensorial.
+            </p>
+          </div>
+
+          <div class="cta-actions">
+            <a class="btn btn-cream" href="#">Comprar perfume</a>
+            <a class="btn btn-outline" href="#experience">Ver colección</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nebula Core | Componentes para PC</title>
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #060816;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .page {
+      min-height: 100vh;
+      position: relative;
+      background:
+        radial-gradient(circle at top left, rgba(162,89,255,0.22), transparent 30%),
+        radial-gradient(circle at top right, rgba(0,209,255,0.18), transparent 28%),
+        radial-gradient(circle at bottom, rgba(255,103,180,0.16), transparent 35%),
+        #060816;
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.30;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 72px 72px;
+      pointer-events: none;
+    }
+
+    .container {
+      width: min(1200px, calc(100% - 48px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 0;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,0.10);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      font-size: 18px;
+    }
+
+    .brand p {
+      margin: 0;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      color: rgba(255,255,255,0.50);
+    }
+
+    .brand h1 {
+      margin: 4px 0 0;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    nav {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    nav a {
+      font-size: 14px;
+      color: rgba(255,255,255,0.72);
+      transition: 0.25s ease;
+    }
+
+    nav a:hover { color: white; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 999px;
+      padding: 16px 28px;
+      border: 1px solid rgba(255,255,255,0.20);
+      font-size: 16px;
+      transition: 0.25s ease;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn.primary {
+      background: white;
+      color: #060816;
+      border-color: rgba(255,255,255,0.85);
+      font-weight: 600;
+    }
+
+    .btn.primary:hover { transform: translateY(-1px); background: rgba(255,255,255,0.92); }
+    .btn.secondary {
+      background: rgba(255,255,255,0.08);
+      color: white;
+      backdrop-filter: blur(16px);
+    }
+
+    .btn.secondary:hover { background: rgba(255,255,255,0.14); }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 48px;
+      align-items: center;
+      padding: 36px 0 110px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(14px);
+      font-size: 14px;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 24px;
+    }
+
+    .pill .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.75);
+    }
+
+    .hero h2 {
+      margin: 0;
+      font-size: clamp(48px, 7vw, 84px);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      font-weight: 600;
+    }
+
+    .gradient-text {
+      display: block;
+      background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0.82), rgba(103,232,249,1));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p.lead {
+      margin: 28px 0 0;
+      max-width: 700px;
+      font-size: 21px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.68);
+    }
+
+    .actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 48px;
+    }
+
+    .glass-card {
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(18px);
+      padding: 18px;
+    }
+
+    .stats .label {
+      font-size: 14px;
+      color: rgba(255,255,255,0.45);
+      margin: 0;
+    }
+
+    .stats .value {
+      margin: 10px 0 0;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.92);
+    }
+
+    .visual-wrap {
+      position: relative;
+    }
+
+    .glow-a, .glow-b {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(60px);
+      pointer-events: none;
+    }
+
+    .glow-a {
+      width: 180px;
+      height: 180px;
+      left: -24px;
+      top: 60px;
+      background: rgba(232,121,249,0.20);
+    }
+
+    .glow-b {
+      width: 220px;
+      height: 220px;
+      right: 0;
+      bottom: -16px;
+      background: rgba(34,211,238,0.18);
+    }
+
+    .product-panel {
+      position: relative;
+      border-radius: 32px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(24px);
+      padding: 16px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.30);
+    }
+
+    .product-inner {
+      border-radius: 26px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(11,16,35,0.95);
+      padding: 20px;
+    }
+
+    .topline {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .eyebrow {
+      margin: 0;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: rgba(255,255,255,0.40);
+    }
+
+    .topline h3 {
+      margin: 8px 0 0;
+      font-size: 30px;
+      font-weight: 600;
+    }
+
+    .tag {
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.05);
+      padding: 6px 12px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.60);
+      white-space: nowrap;
+    }
+
+    .feature-box {
+      border-radius: 24px;
+      padding: 20px;
+      background: linear-gradient(to bottom right, rgba(255,255,255,0.12), rgba(255,255,255,0.05), rgba(255,255,255,0.00));
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .feature-top {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .feature-top p {
+      max-width: 260px;
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.65);
+    }
+
+    .mini-glow {
+      width: 84px;
+      height: 84px;
+      border-radius: 24px;
+      background: linear-gradient(to bottom right, rgba(103,232,249,0.40), rgba(232,121,249,0.30));
+      filter: blur(6px);
+      flex-shrink: 0;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chips span {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.06);
+      font-size: 12px;
+      color: rgba(255,255,255,0.70);
+    }
+
+    .two-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .small-card p:first-child {
+      margin: 0;
+      font-size: 14px;
+      color: rgba(255,255,255,0.45);
+    }
+
+    .small-card h4 {
+      margin: 12px 0 0;
+      font-size: 38px;
+      line-height: 1;
+      font-weight: 600;
+    }
+
+    .small-card p:last-child {
+      margin: 12px 0 0;
+      font-size: 14px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.60);
+    }
+
+    section.section {
+      padding-bottom: 96px;
+    }
+
+    .section-head {
+      display: flex;
+      gap: 24px;
+      align-items: end;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+
+    .section-head p:first-child {
+      margin: 0;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      color: rgba(255,255,255,0.40);
+    }
+
+    .section-head h3 {
+      margin: 12px 0 0;
+      font-size: clamp(32px, 4vw, 44px);
+      font-weight: 600;
+    }
+
+    .section-head .copy {
+      max-width: 620px;
+      color: rgba(255,255,255,0.60);
+      line-height: 1.8;
+      margin: 0;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .info-card {
+      border-radius: 30px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(18px);
+      padding: 28px;
+      min-height: 100%;
+    }
+
+    .icon-box {
+      width: 56px;
+      height: 56px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.10);
+      margin-bottom: 18px;
+      font-size: 24px;
+    }
+
+    .info-card h4 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .info-card p {
+      margin: 12px 0 0;
+      line-height: 1.9;
+      color: rgba(255,255,255,0.60);
+    }
+
+    .split-grid {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 24px;
+      padding-bottom: 96px;
+    }
+
+    .left-panel {
+      border-radius: 32px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(18px);
+      padding: 32px;
+    }
+
+    .left-panel p:first-child {
+      margin: 0;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      color: rgba(255,255,255,0.40);
+    }
+
+    .left-panel h3 {
+      margin: 16px 0 0;
+      font-size: 40px;
+      line-height: 1.15;
+      font-weight: 600;
+    }
+
+    .left-panel h3 span {
+      display: block;
+      color: rgba(255,255,255,0.70);
+    }
+
+    .left-panel p:last-child {
+      margin: 20px 0 0;
+      line-height: 1.9;
+      color: rgba(255,255,255,0.60);
+    }
+
+    .right-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .number-card {
+      border-radius: 32px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: linear-gradient(to bottom, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      backdrop-filter: blur(18px);
+      padding: 24px;
+      transition: 0.25s ease;
+    }
+
+    .number-card:hover {
+      transform: translateY(-4px);
+      background: rgba(255,255,255,0.10);
+    }
+
+    .number-card .n {
+      margin: 0;
+      color: rgba(255,255,255,0.40);
+      font-size: 14px;
+    }
+
+    .number-card h4 {
+      margin: 34px 0 0;
+      font-size: 32px;
+      font-weight: 600;
+    }
+
+    .number-card p:last-child {
+      margin: 12px 0 0;
+      font-size: 14px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.60);
+    }
+
+    .cta {
+      position: relative;
+      overflow: hidden;
+      border-radius: 36px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(18px);
+      padding: 42px;
+      margin-bottom: 64px;
+    }
+
+    .cta::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.12), transparent 20%),
+        radial-gradient(circle at 80% 30%, rgba(90,200,250,0.12), transparent 22%),
+        radial-gradient(circle at 70% 80%, rgba(236,72,153,0.12), transparent 18%);
+      pointer-events: none;
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 24px;
+      align-items: end;
+      justify-content: space-between;
+    }
+
+    .cta p:first-child {
+      margin: 0;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      color: rgba(255,255,255,0.40);
+    }
+
+    .cta h3 {
+      margin: 16px 0 0;
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.08;
+      font-weight: 600;
+    }
+
+    .cta h3 span {
+      display: block;
+      color: rgba(255,255,255,0.65);
+    }
+
+    .cta .desc {
+      margin: 24px 0 0;
+      max-width: 720px;
+      font-size: 18px;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.65);
+    }
+
+    .cta-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 980px) {
+      nav { display: none; }
+      .hero, .split-grid, .feature-grid, .cta-content, .section-head {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+      .hero, .split-grid { gap: 32px; }
+      .feature-grid { gap: 16px; }
+      .section-head { align-items: start; }
+      .right-grid, .two-grid, .stats { grid-template-columns: 1fr; }
+      .cta-content { align-items: start; }
+    }
+
+    @media (max-width: 640px) {
+      .container { width: min(100% - 28px, 1200px); }
+      header { padding: 18px 0; }
+      .hero { padding-top: 18px; padding-bottom: 72px; }
+      .btn { width: 100%; }
+      .actions, .cta-actions { flex-direction: column; }
+      .left-panel, .cta, .product-panel, .info-card, .number-card { padding: 22px; }
+      .product-inner { padding: 16px; }
+      .topline h3 { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="container">
+      <header>
+        <div class="brand">
+          <div class="brand-icon">✦</div>
+          <div>
+            <p>Hardware Store</p>
+            <h1>Nebula Core</h1>
+          </div>
+        </div>
+
+        <nav>
+          <a href="#coleccion">Catálogo</a>
+          <a href="#esencias">Componentes</a>
+          <a href="#universo">Ofertas</a>
+        </nav>
+
+        <a class="btn secondary" href="#universo">Explorar</a>
+      </header>
+
+      <section class="hero">
+        <div>
+          <div class="pill"><span class="dot"></span>Componentes premium para gaming, trabajo y alto rendimiento</div>
+          <h2>
+            Potencia tu PC con piezas
+            <span class="gradient-text">que rinden lo que valen.</span>
+          </h2>
+          <p class="lead">
+            Una landing elegante para una tienda de componentes de computadoras: moderna, tecnológica y diseñada para vender rendimiento, confianza y estilo desde el primer vistazo.
+          </p>
+
+          <div class="actions">
+            <a class="btn primary" href="#coleccion">Ver catálogo →</a>
+            <a class="btn secondary" href="#esencias">Explorar componentes</a>
+          </div>
+
+          <div class="stats">
+            <div class="glass-card">
+              <p class="label">Especialidad</p>
+              <p class="value">Hardware de alto nivel</p>
+            </div>
+            <div class="glass-card">
+              <p class="label">Enfoque</p>
+              <p class="value">Gaming, edición y streaming</p>
+            </div>
+            <div class="glass-card">
+              <p class="label">Resultado</p>
+              <p class="value">Más potencia por tu inversión</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="visual-wrap">
+          <div class="glow-a"></div>
+          <div class="glow-b"></div>
+
+          <div class="product-panel">
+            <div class="product-inner">
+              <div class="topline">
+                <div>
+                  <p class="eyebrow">PC hardware</p>
+                  <h3>Signature Performance Collection</h3>
+                </div>
+                <div class="tag">Top Picks</div>
+              </div>
+
+              <div class="feature-box">
+                <div class="feature-top">
+                  <p>
+                    Componentes seleccionados para ofrecer potencia, estabilidad y diseño. Ideal para quienes quieren armar una PC que no tiemble ni con juegos pesados ni con renders asesinos.
+                  </p>
+                  <div class="mini-glow"></div>
+                </div>
+
+                <div class="chips">
+                  <span>Tarjetas gráficas</span>
+                  <span>Procesadores</span>
+                  <span>Memoria RAM</span>
+                  <span>SSD NVMe</span>
+                </div>
+              </div>
+
+              <div class="two-grid">
+                <div class="glass-card small-card">
+                  <p>GPU</p>
+                  <h4>RTX Series</h4>
+                  <p>Gráficos fluidos, ray tracing y potencia brutal para gaming competitivo, creación de contenido y trabajo intensivo.</p>
+                </div>
+                <div class="glass-card small-card">
+                  <p>CPU</p>
+                  <h4>Ryzen Elite</h4>
+                  <p>Procesadores rápidos, eficientes y listos para multitarea seria sin ponerse dramáticos a la primera carga pesada.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="esencias">
+        <div class="section-head">
+          <div>
+            <p>Nuestro catálogo</p>
+            <h3>Componentes con intención</h3>
+          </div>
+          <p class="copy">
+            No se trata solo de vender piezas. Se trata de ayudarte a construir una máquina equilibrada, potente y preparada para durar.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <div class="info-card">
+            <div class="icon-box">◉</div>
+            <h4>Rendimiento real</h4>
+            <p>Seleccionamos componentes que entregan velocidad, estabilidad y una experiencia sólida tanto en gaming como en productividad.</p>
+          </div>
+
+          <div class="info-card">
+            <div class="icon-box">▣</div>
+            <h4>Compatibilidad cuidada</h4>
+            <p>Todo está pensado para que cada pieza funcione bien con el resto, evitando cuellos de botella y dolores de cabeza innecesarios.</p>
+          </div>
+
+          <div class="info-card">
+            <div class="icon-box">✦</div>
+            <h4>Diseño y potencia</h4>
+            <p>Hardware que no solo rinde fuerte, sino que también luce increíble en setups modernos con estética premium.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="split-grid" id="coleccion">
+        <div class="left-panel">
+          <p>Nuestra selección</p>
+          <h3>
+            Componentes que se sienten premium,
+            <span>incluso antes de encender la PC.</span>
+          </h3>
+          <p>
+            Esta página está pensada para vender confianza tecnológica. Porque cuando alguien compra hardware, no solo compra piezas: compra rendimiento, durabilidad y la emoción de montar algo poderoso.
+          </p>
+        </div>
+
+        <div class="right-grid">
+          <div class="number-card">
+            <p class="n">01</p>
+            <h4>Tarjetas gráficas</h4>
+            <p>Modelos diseñados para ofrecer alto rendimiento visual, mejores FPS y una experiencia más fluida en cualquier carga exigente.</p>
+          </div>
+
+          <div class="number-card">
+            <p class="n">02</p>
+            <h4>Procesadores</h4>
+            <p>Opciones para gaming, trabajo profesional y multitarea pesada con excelente balance entre potencia y eficiencia.</p>
+          </div>
+
+          <div class="number-card">
+            <p class="n">03</p>
+            <h4>Memorias RAM</h4>
+            <p>Velocidad, capacidad y estabilidad para sistemas rápidos que no se ahogan cuando abres veinte cosas al mismo tiempo.</p>
+          </div>
+
+          <div class="number-card">
+            <p class="n">04</p>
+            <h4>Almacenamiento SSD</h4>
+            <p>Arranques veloces, cargas mínimas y transferencias rápidas para que tu equipo deje de comportarse como carreta digital.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="universo">
+        <div class="cta">
+          <div class="cta-content">
+            <div>
+              <p>Última llamada</p>
+              <h3>
+                Arma tu próxima PC
+                <span>con piezas que sí estén a la altura.</span>
+              </h3>
+              <p class="desc">
+                Ideal para presentar una tienda de componentes de computadoras como catálogo visual, página informativa o vitrina de ventas con una estética tecnológica elegante y moderna.
+              </p>
+            </div>
+
+            <div class="cta-actions">
+              <a class="btn primary" href="#">Comprar ahora</a>
+              <a class="btn secondary" href="#coleccion">Ver componentes</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

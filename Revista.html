@@ -1,0 +1,922 @@
+  <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EL AHORRO — Edición de Ofertas</title>
+  <style>
+    :root{
+      --bg:#f3f1ec;
+      --ink:#111111;
+      --muted:#5b5b5b;
+      --line:#141414;
+      --paper:#faf8f3;
+      --accent:#c94f2d;
+      --accent-2:#d8c92b;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:var(--bg);
+      color:var(--ink);
+    }
+
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:rgba(243,241,236,.92);
+      backdrop-filter: blur(8px);
+      border-bottom:2px solid var(--line);
+    }
+
+    .topbar-inner{
+      width:min(1400px, calc(100% - 28px));
+      margin:0 auto;
+      min-height:72px;
+      display:grid;
+      grid-template-columns: 220px 1fr 220px;
+      align-items:center;
+      gap:16px;
+    }
+
+    .brand{
+      font-weight:900;
+      font-size:26px;
+      letter-spacing:-.05em;
+    }
+
+    .nav{
+      display:flex;
+      justify-content:center;
+      gap:28px;
+      flex-wrap:wrap;
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+    }
+
+    .nav a{
+      padding:8px 0;
+      position:relative;
+    }
+
+    .nav a::after{
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:2px;
+      width:0;
+      height:2px;
+      background:var(--line);
+      transition:.22s ease;
+    }
+
+    .nav a:hover::after{width:100%}
+
+    .cta-mini{
+      justify-self:end;
+      border:2px solid var(--line);
+      padding:11px 16px;
+      font-size:12px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.1em;
+      background:white;
+      box-shadow:6px 6px 0 var(--line);
+      transition:.18s ease;
+    }
+
+    .cta-mini:hover{
+      transform:translate(2px,2px);
+      box-shadow:4px 4px 0 var(--line);
+    }
+
+    .wrap{
+      width:min(1400px, calc(100% - 28px));
+      margin:0 auto;
+    }
+
+    .hero{
+      padding:26px 0 18px;
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:18px;
+      align-items:stretch;
+    }
+
+    .hero-left{
+      border:3px solid var(--line);
+      background:var(--paper);
+      min-height:720px;
+      position:relative;
+      overflow:hidden;
+      display:grid;
+      grid-template-rows:auto 1fr auto;
+    }
+
+    .hero-head{
+      display:grid;
+      grid-template-columns: 160px 1fr;
+      border-bottom:3px solid var(--line);
+    }
+
+    .label-box{
+      border-right:3px solid var(--line);
+      padding:16px;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-weight:800;
+      background:var(--accent-2);
+    }
+
+    .headline-box{
+      padding:18px 22px 22px;
+    }
+
+    .headline-box h1{
+      margin:0;
+      font-size:clamp(56px, 8vw, 112px);
+      line-height:.88;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:-.08em;
+    }
+
+    .headline-box p{
+      margin:16px 0 0;
+      max-width:760px;
+      font-size:18px;
+      line-height:1.7;
+      color:#2f2f2f;
+    }
+
+    .poster{
+      display:grid;
+      grid-template-columns: 110px 1fr;
+      min-height:100%;
+    }
+
+    .poster-rail{
+      border-right:3px solid var(--line);
+      background:#fff;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      padding:18px 10px;
+    }
+
+    .poster-rail span{
+      writing-mode:vertical-rl;
+      transform: rotate(180deg);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+    }
+
+    .poster-art{
+      position:relative;
+      overflow:hidden;
+      background:
+        linear-gradient(135deg, rgba(0,0,0,.06) 25%, transparent 25%) -24px 0/48px 48px,
+        linear-gradient(225deg, rgba(0,0,0,.06) 25%, transparent 25%) -24px 0/48px 48px,
+        linear-gradient(315deg, rgba(0,0,0,.06) 25%, transparent 25%) 0 0/48px 48px,
+        linear-gradient(45deg, rgba(0,0,0,.06) 25%, transparent 25%) 0 0/48px 48px,
+        #ebe6dd;
+      display:grid;
+      place-items:center;
+      padding:26px;
+    }
+
+    .circle-a,.circle-b,.block-a,.block-b,.slash{
+      position:absolute;
+      border:3px solid var(--line);
+    }
+
+    .circle-a{
+      width:360px;height:360px;border-radius:50%;
+      background:white; left:8%; top:10%;
+    }
+
+    .circle-b{
+      width:210px;height:210px;border-radius:50%;
+      background:var(--accent); right:9%; bottom:12%;
+    }
+
+    .block-a{
+      width:260px;height:110px;
+      background:var(--accent-2);
+      right:8%; top:14%;
+      transform:rotate(-12deg);
+    }
+
+    .block-b{
+      width:190px;height:260px;
+      background:#fff;
+      left:12%; bottom:10%;
+    }
+
+    .slash{
+      width:120%; height:28px;
+      background:var(--line);
+      transform:rotate(-24deg);
+      left:-10%; top:48%;
+      border:none;
+    }
+
+    .poster-copy{
+      position:relative;
+      z-index:2;
+      width:min(620px, 100%);
+      display:grid;
+      gap:12px;
+    }
+
+    .kicker{
+      display:inline-block;
+      width:max-content;
+      border:2px solid var(--line);
+      background:white;
+      padding:8px 12px;
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      box-shadow:4px 4px 0 var(--line);
+    }
+
+    .poster-copy h2{
+      margin:0;
+      font-size:clamp(36px, 4vw, 64px);
+      line-height:.92;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:-.06em;
+      max-width:520px;
+    }
+
+    .poster-copy p{
+      margin:0;
+      max-width:460px;
+      background:rgba(255,255,255,.86);
+      border:2px solid var(--line);
+      padding:14px 16px;
+      line-height:1.7;
+      font-size:15px;
+      box-shadow:6px 6px 0 var(--line);
+    }
+
+    .hero-foot{
+      border-top:3px solid var(--line);
+      display:grid;
+      grid-template-columns: repeat(4,1fr);
+      background:white;
+    }
+
+    .metric{
+      padding:16px 18px;
+      border-right:3px solid var(--line);
+    }
+
+    .metric:last-child{border-right:none}
+    .metric span{
+      display:block;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.13em;
+      color:var(--muted);
+      margin-bottom:8px;
+      font-weight:700;
+    }
+    .metric strong{
+      font-size:17px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:-.03em;
+    }
+
+    .hero-right{
+      display:grid;
+      gap:18px;
+      grid-template-rows: 1fr auto auto;
+    }
+
+    .quote{
+      border:3px solid var(--line);
+      background:var(--line);
+      color:#fff;
+      padding:26px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      min-height:250px;
+    }
+
+    .quote small{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      opacity:.7;
+      font-weight:700;
+    }
+
+    .quote h3{
+      margin:16px 0;
+      font-size:clamp(30px, 4vw, 52px);
+      line-height:.95;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:-.05em;
+      max-width:320px;
+    }
+
+    .quote p{
+      margin:0;
+      max-width:340px;
+      line-height:1.7;
+      color:rgba(255,255,255,.78);
+    }
+
+    .stack{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+
+    .mini-card{
+      border:3px solid var(--line);
+      background:white;
+      padding:18px;
+      min-height:180px;
+      position:relative;
+    }
+
+    .mini-card .n{
+      position:absolute;
+      top:12px; right:14px;
+      font-size:42px;
+      font-weight:900;
+      letter-spacing:-.08em;
+      color:#d3d0c8;
+    }
+
+    .mini-card h4{
+      margin:36px 0 0;
+      font-size:28px;
+      line-height:.96;
+      text-transform:uppercase;
+      letter-spacing:-.05em;
+      font-weight:900;
+      max-width:180px;
+    }
+
+    .mini-card p{
+      margin:14px 0 0;
+      line-height:1.7;
+      font-size:14px;
+      color:#363636;
+      max-width:220px;
+    }
+
+    .banner{
+      border:3px solid var(--line);
+      background:var(--accent);
+      padding:18px 20px;
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap:16px;
+      align-items:center;
+    }
+
+    .banner h4{
+      margin:0;
+      font-size:30px;
+      font-weight:900;
+      letter-spacing:-.05em;
+      text-transform:uppercase;
+      line-height:.95;
+      max-width:560px;
+    }
+
+    .banner a{
+      border:2px solid var(--line);
+      background:#fff;
+      padding:12px 18px;
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.1em;
+      box-shadow:5px 5px 0 var(--line);
+      transition:.18s ease;
+    }
+
+    .banner a:hover{
+      transform:translate(2px,2px);
+      box-shadow:3px 3px 0 var(--line);
+    }
+
+    .marquee{
+      margin:18px 0 0;
+      border-top:3px solid var(--line);
+      border-bottom:3px solid var(--line);
+      background:white;
+      overflow:hidden;
+      white-space:nowrap;
+    }
+
+    .marquee-track{
+      display:inline-block;
+      padding:14px 0;
+      font-size:15px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      animation: scroll 22s linear infinite;
+    }
+
+    @keyframes scroll{
+      from{transform:translateX(0)}
+      to{transform:translateX(-50%)}
+    }
+
+    .section{
+      padding:18px 0 0;
+    }
+
+    .grid-layout{
+      display:grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap:18px;
+      align-items:start;
+    }
+
+    .manifesto{
+      border:3px solid var(--line);
+      background:white;
+      padding:24px;
+      position:sticky;
+      top:94px;
+    }
+
+    .manifesto small,
+    .section-tag{
+      display:block;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.15em;
+      color:var(--muted);
+      font-weight:800;
+      margin-bottom:14px;
+    }
+
+    .manifesto h2{
+      margin:0;
+      font-size:48px;
+      line-height:.92;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:-.07em;
+    }
+
+    .manifesto p{
+      margin:18px 0 0;
+      line-height:1.85;
+      color:#303030;
+      font-size:15px;
+    }
+
+    .manifesto ul{
+      list-style:none;
+      padding:0;
+      margin:24px 0 0;
+      display:grid;
+      gap:10px;
+    }
+
+    .manifesto li{
+      border-top:2px solid var(--line);
+      padding-top:10px;
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:.1em;
+      font-weight:800;
+    }
+
+    .magazine{
+      display:grid;
+      gap:18px;
+    }
+
+    .row{
+      display:grid;
+      gap:18px;
+    }
+
+    .row.two{grid-template-columns: 1fr 1fr}
+    .row.mixed{grid-template-columns: 1.2fr .8fr}
+
+    .panel{
+      border:3px solid var(--line);
+      background:var(--paper);
+      min-height:220px;
+      padding:22px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .panel.dark{
+      background:#151515;
+      color:white;
+    }
+
+    .panel.yellow{background:var(--accent-2)}
+    .panel.red{background:var(--accent)}
+    .panel.white{background:white}
+
+    .panel h3{
+      margin:0;
+      font-size:40px;
+      line-height:.94;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:-.06em;
+      max-width:460px;
+    }
+
+    .panel p{
+      margin:16px 0 0;
+      line-height:1.8;
+      max-width:460px;
+      font-size:15px;
+      color:inherit;
+    }
+
+    .corner-tag{
+      position:absolute;
+      right:0; top:0;
+      padding:8px 12px;
+      border-left:3px solid var(--line);
+      border-bottom:3px solid var(--line);
+      font-size:11px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.13em;
+      background:white;
+      color:var(--line);
+    }
+
+    .numbers{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:18px;
+    }
+
+    .num{
+      border:3px solid var(--line);
+      background:white;
+      padding:18px;
+    }
+
+    .num strong{
+      display:block;
+      font-size:54px;
+      line-height:.9;
+      font-weight:900;
+      letter-spacing:-.08em;
+      margin-bottom:8px;
+    }
+
+    .num span{
+      display:block;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:var(--muted);
+      font-weight:800;
+      margin-bottom:12px;
+    }
+
+    .num p{
+      margin:0;
+      line-height:1.7;
+      font-size:14px;
+    }
+
+    .footer-cta{
+      margin:18px 0 40px;
+      border:3px solid var(--line);
+      background:white;
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap:18px;
+      align-items:center;
+      padding:24px;
+    }
+
+    .footer-cta h3{
+      margin:0;
+      font-size:clamp(34px, 5vw, 70px);
+      line-height:.9;
+      text-transform:uppercase;
+      letter-spacing:-.07em;
+      font-weight:900;
+      max-width:760px;
+    }
+
+    .footer-actions{
+      display:grid;
+      gap:12px;
+    }
+
+    .btn-block{
+      border:2px solid var(--line);
+      background:var(--line);
+      color:#fff;
+      padding:14px 20px;
+      text-transform:uppercase;
+      letter-spacing:.1em;
+      font-size:12px;
+      font-weight:800;
+      text-align:center;
+      box-shadow:5px 5px 0 var(--accent);
+      transition:.18s ease;
+    }
+
+    .btn-block.alt{
+      background:white;
+      color:var(--line);
+      box-shadow:5px 5px 0 var(--accent-2);
+    }
+
+    .btn-block:hover{
+      transform:translate(2px,2px);
+      box-shadow:3px 3px 0 currentColor;
+    }
+
+    @media (max-width: 1100px){
+      .hero,
+      .grid-layout,
+      .footer-cta,
+      .section-head,
+      .row.two,
+      .row.mixed,
+      .numbers{
+        grid-template-columns:1fr;
+      }
+
+      .hero-right,
+      .stack{grid-template-columns:1fr}
+      .topbar-inner{grid-template-columns:1fr auto}
+      .nav{display:none}
+      .manifesto{position:static}
+    }
+
+    @media (max-width: 760px){
+      .topbar-inner{grid-template-columns:1fr}
+      .cta-mini{justify-self:start}
+      .hero-head,
+      .poster,
+      .hero-foot{
+        grid-template-columns:1fr;
+      }
+      .label-box,
+      .poster-rail{
+        border-right:none;
+        border-bottom:3px solid var(--line);
+      }
+      .poster-rail{
+        min-height:52px;
+        justify-content:flex-start;
+        align-items:center;
+      }
+      .poster-rail span{
+        writing-mode:horizontal-tb;
+        transform:none;
+      }
+      .hero-left{min-height:auto}
+      .metric{border-right:none;border-bottom:3px solid var(--line)}
+      .metric:last-child{border-bottom:none}
+      .banner,
+      .footer-cta{grid-template-columns:1fr}
+      .wrap,
+      .topbar-inner{width:min(100% - 18px, 1400px)}
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">EL AHORRO</div>
+      <nav class="nav">
+        <a href="#manifiesto">Portada</a>
+        <a href="#bloques">Ofertas</a>
+        <a href="#sistema">Tiendas</a>
+      </nav>
+      <a class="cta-mini" href="#contacto">Ver edición</a>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section class="hero">
+      <div class="hero-left">
+        <div class="hero-head">
+          <div class="label-box">Edición especial / descuentos y tiendas</div>
+          <div class="headline-box">
+            <h1>LAS MEJORES OFERTAS DE LA SEMANA.</h1>
+            <p>
+              Una portada con carácter periodístico para destacar promociones, rebajas, hallazgos y oportunidades de compra en múltiples tiendas. Todo con una vibra editorial fuerte, directa y hecha para llamar la atención desde el primer vistazo.
+            </p>
+          </div>
+        </div>
+
+        <div class="poster">
+          <div class="poster-rail"><span>Especial de compras / edición 2026</span></div>
+          <div class="poster-art">
+            <div class="circle-a"></div>
+            <div class="circle-b"></div>
+            <div class="block-a"></div>
+            <div class="block-b"></div>
+            <div class="slash"></div>
+
+            <div class="poster-copy">
+              <span class="kicker">Precios que sí provocan abrir la cartera</span>
+              <h2>Descuentos reales, tiendas destacadas y oportunidades que vuelan.</h2>
+              <p>
+                Esta edición reúne promociones especiales, productos recomendados y rebajas del momento para quienes quieren comprar mejor sin perder tiempo buscando entre cien anuncios que prometen mucho y aflojan como gelatina.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-foot">
+          <div class="metric">
+            <span>Sección</span>
+            <strong>Portada comercial</strong>
+          </div>
+          <div class="metric">
+            <span>Enfoque</span>
+            <strong>Ofertas y rebajas</strong>
+          </div>
+          <div class="metric">
+            <span>Formato</span>
+            <strong>Periódico visual</strong>
+          </div>
+          <div class="metric">
+            <span>Objetivo</span>
+            <strong>Guiar compras</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="quote">
+          <div>
+            <small>Titular destacado</small>
+            <h3>Más ahorro, menos vueltas inútiles por media ciudad.</h3>
+          </div>
+          <p>
+            Una página pensada para presentar promociones con fuerza visual, como si cada bloque fuera una nota principal de un suplemento comercial moderno.
+          </p>
+        </div>
+
+        <div class="stack">
+          <div class="mini-card">
+            <div class="n">01</div>
+            <h4>Ofertas del día</h4>
+            <p>Promociones destacadas para captar la atención en segundos.</p>
+          </div>
+          <div class="mini-card">
+            <div class="n">02</div>
+            <h4>Tiendas top</h4>
+            <p>Marcas y comercios con descuentos que sí valen la pena revisar.</p>
+          </div>
+        </div>
+
+        <div class="banner">
+          <h4>Ideal para campañas comerciales, catálogos promocionales, portales de descuentos o suplementos de tiendas.</h4>
+          <a href="#bloques">Ver ofertas</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee">
+      <div class="marquee-track">
+        &nbsp;REBAJAS DE TEMPORADA • PROMOCIONES LIMITADAS • OFERTAS DESTACADAS • TIENDAS RECOMENDADAS • DESCUENTOS REALES • REBAJAS DE TEMPORADA • PROMOCIONES LIMITADAS • OFERTAS DESTACADAS •
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="grid-layout">
+        <aside class="manifesto" id="manifiesto">
+          <small>Portada</small>
+          <h2>Compra mejor. Gasta con cabeza.</h2>
+          <p>
+            Esta propuesta convierte una página promocional en una experiencia con presencia editorial. En lugar de mostrar simples bloques de productos, presenta la información como si fuera un periódico de ofertas: titulares grandes, llamadas potentes y jerarquía clara.
+          </p>
+          <p>
+            El resultado se siente más memorable, más ordenado y mucho más útil para destacar descuentos sin que la web termine pareciendo una feria de banners peleándose a machete por tu atención.
+          </p>
+          <ul>
+            <li>Promociones más visibles</li>
+            <li>Tiendas mejor organizadas</li>
+            <li>Titulares con fuerza</li>
+            <li>Estilo editorial comercial</li>
+          </ul>
+        </aside>
+
+        <div class="magazine" id="bloques">
+          <div class="row mixed">
+            <article class="panel yellow">
+              <span class="corner-tag">Oferta principal</span>
+              <h3>Los descuentos estrella merecen verse como noticia de portada.</h3>
+              <p>
+                Esta sección pone en primer plano las promociones más atractivas del momento para que el visitante detecte rápidamente dónde está el mayor valor.
+              </p>
+            </article>
+
+            <article class="panel dark">
+              <span class="corner-tag">Alerta</span>
+              <h3>Precios bajos. Tiempo corto.</h3>
+              <p>
+                Algunas oportunidades duran poco, y por eso la presentación debe empujar a revisar antes de que la oferta desaparezca.
+              </p>
+            </article>
+          </div>
+
+          <div class="row two">
+            <article class="panel white">
+              <span class="section-tag">Selección</span>
+              <h3>Tiendas, productos y rebajas en una sola lectura.</h3>
+              <p>
+                La composición permite organizar categorías, promociones y recomendaciones sin perder esa sensación de edición especial de compras.
+              </p>
+            </article>
+
+            <article class="panel red">
+              <span class="corner-tag">Destacado</span>
+              <h3>Una buena oferta entra por el precio, pero vende más con buena presentación.</h3>
+              <p>
+                Mostrar descuentos con identidad visual fuerte hace que todo parezca más confiable, más premium y más digno de clic.
+              </p>
+            </article>
+          </div>
+
+          <div class="numbers" id="sistema">
+            <article class="num">
+              <strong>50%</strong>
+              <span>Rebajas destacadas</span>
+              <p>Espacio ideal para anunciar descuentos potentes en productos seleccionados.</p>
+            </article>
+            <article class="num">
+              <strong>24H</strong>
+              <span>Ofertas flash</span>
+              <p>Perfecto para promociones limitadas que deben sentirse urgentes y visibles.</p>
+            </article>
+            <article class="num">
+              <strong>12</strong>
+              <span>Tiendas en portada</span>
+              <p>Una forma atractiva de reunir múltiples comercios en una sola edición comercial.</p>
+            </article>
+          </div>
+
+          <div class="row two">
+            <article class="panel dark">
+              <span class="corner-tag">Categorías</span>
+              <h3>Moda, tecnología, hogar, supermercado o cualquier campaña de retail.</h3>
+              <p>
+                El sistema funciona muy bien para distintos tipos de tienda porque combina impacto visual con una lectura rápida y ordenada.
+              </p>
+            </article>
+
+            <article class="panel white">
+              <span class="corner-tag">Edición</span>
+              <h3>Una portada así hace que las promociones se sientan importantes de verdad.</h3>
+              <p>
+                No solo informa: también crea ambiente, urgencia y esa sensación de “esto hay que verlo ahora”.
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacto">
+      <div class="footer-cta">
+        <h3>SI HAY DESCUENTOS BUENOS, QUE SE VEAN COMO TITULARES QUE NADIE QUIERE PERDERSE.</h3>
+        <div class="footer-actions">
+          <a class="btn-block" href="#">Ver promociones</a>
+          <a class="btn-block alt" href="#">Explorar tiendas</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
