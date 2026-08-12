@@ -1,2 +1,2 @@
 # Web-Projects
-some examples of websites I can create for you
+A collection of websites showcasing my frontend development skills and design capabilities.
